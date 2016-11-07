@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="check" namespace="/check" extends="struts-default">
+
+		<global-results>
+            <result name="error">/WEB-INF/page/error.jsp?errMsg=${errMsg}</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+        
+        <action name="*" class="forum.cute.action.check.CheckUserAction" method="check_{1}">
+            <result>/WEB-INF/page/checkUser.jsp</result>
+        </action>
+        
+    </package>
+    
+</struts>

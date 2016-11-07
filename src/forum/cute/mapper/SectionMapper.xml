@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="forum.cute.mapper.SectionMapper">
+ 	<resultMap id="sectionRM" type="forum.cute.bean.SectionBean">
+ 		<result property="id" column="id"/>
+ 		<result property="title" column="title"/>
+ 		<result property="desc" column="desc"/>
+ 		<result property="master" column="master"/>
+ 	</resultMap>
+ 
+ 	<select id="selectSectionById" resultType="forum.cute.bean.SectionBean" resultMap="sectionRM">
+ 		select * from t_section where id = #{id}
+ 	</select>
+ 	
+ 	<select id="selectAllSections" resultType="forum.cute.bean.SectionBean" resultMap="sectionRM">
+ 		select * from t_section
+ 	</select>
+ 	
+ </mapper>

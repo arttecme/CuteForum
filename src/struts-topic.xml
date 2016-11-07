@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="topic" namespace="/topic" extends="struts-default">
+
+		<global-results>
+            <result name="error">/WEB-INF/page/error.jsp?errMsg=${errMsg}</result>
+        </global-results>
+<!-- 
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+-->
+
+		<action name="edit" class="forum.cute.action.topic.EditTopicAction">
+            <result>/WEB-INF/page/topic/edit.jsp</result>
+        </action>
+        
+        <action name="publish" class="forum.cute.action.topic.PublishTopicAction">
+            <result type="redirectAction" name="success">
+                <param name="actionName">show?topicId=${topicId}&amp;page=0</param>
+                <param name="namespace">/topic</param>
+            </result>
+            <result name="fail">/WEB-INF/page/topic/pubFail.jsp</result>
+        </action>
+        
+        <action name="show" class="forum.cute.action.topic.ShowTopicAction">
+        	<result>/WEB-INF/page/topic/show.jsp</result>
+            <result name="fail">/WEB-INF/page/topic/showFail.jsp</result>
+        </action>
+        
+        <action name="reply" class="forum.cute.action.topic.ReplyTopicAction">
+        	<result type="redirectAction" name="success">
+                <param name="actionName">show?topicId=${topicId}&amp;page=${page}</param>
+                <param name="namespace">/topic</param>
+            </result>
+            <result name="fail">/WEB-INF/page/topic/replyFail.jsp</result>
+        </action>
+        
+        <action name="modify" class="forum.cute.action.topic.ModifyTopicAction">
+            <result>/WEB-INF/page/topic/modify.jsp</result>
+        </action>
+        
+        <action name="update" class="forum.cute.action.topic.UpdateTopicAction">
+            <result type="redirectAction" name="success">
+                <param name="actionName">show?topicId=${topicId}</param>
+                <param name="namespace">/topic</param>
+            </result>
+        </action>
+        
+        <action name="delete" class="forum.cute.action.topic.DeleteTopicAction">
+            <result type="redirectAction" name="success">
+                <param name="actionName">myTopics?page=${page}&amp;delTopicNum=${delTopicNum}&amp;delReplyNum=${delReplyNum}</param>
+                <param name="namespace">/user</param>
+            </result>
+        </action>
+        
+        <action name="search" class="forum.cute.action.topic.PreSearchTopicAction">
+            <result>/WEB-INF/page/topic/search.jsp</result>
+        </action>
+        
+        <action name="doSearch" class="forum.cute.action.topic.DoSearchTopicAction">
+            <result>/WEB-INF/page/topic/searchResult.jsp?page=${page}&amp;keywords=${keywords}&amp;section=${section}</result>
+        </action>
+        
+    </package>
+    
+</struts>

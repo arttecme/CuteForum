@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+
+<!-- <properties resource="jdbc.properties"></properties> -->
+
+<properties>
+	<property name="jdbcDriver" value="com.mysql.jdbc.Driver"/>
+	<property name="jdbcUrlDebug" value="jdbc:mysql://127.0.0.1:3306/cute_forum?useUnicode=true&amp;characterEncoding=utf8"/>
+	<property name="jdbcUrlRelease" value="jdbc:mysql://127.0.0.1:3306/cute_forum?useUnicode=true&amp;characterEncoding=utf8"/>
+</properties>
+
+<environments default="development">
+	<environment id="development">
+		<!-- type="JDBC" 普通的java程序，可以利用JDBC实现事务管理
+		type="MANAGED" 当应用部署在web容器（WebSphere/Tomcat...）中，则需要交由容器来实现事务管理 -->
+		<transactionManager type="MANAGED"/>
+		<!-- type="POOLED" 使用连接池
+		type="JNDI" 通过容器JNDI
+		type="UNPOOLED" 不使用连接池 -->
+		<dataSource type="POOLED">
+			<property name="driver" value="${jdbcDriver}"/>
+			<property name="url" value="${jdbcUrlDebug}"/>
+			<property name="username" value="root"/>
+			<property name="password" value="123456"/>
+		</dataSource>
+	</environment>
+	<environment id="product">
+		<transactionManager type="JDBC"/>
+		<dataSource type="POOLED">
+			<property name="driver" value="${jdbcDriver}"/>
+			<property name="url" value="${jdbcUrlRelease}"/>
+			<property name="username" value="root"/>
+			<property name="password" value="123456"/>
+		</dataSource>
+	</environment>
+</environments>
+
+<mappers>
+	<package name="forum.cute.mapper"/>
+</mappers>
+
+</configuration>

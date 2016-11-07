@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="forum.cute.mapper.UserMapper">
+ 	<resultMap id="userRM" type="forum.cute.bean.UserBean">
+ 		<result property="id" column="id"/>
+ 		<result property="account" column="account"/>
+ 		<result property="password" column="password"/>
+ 		<result property="name" column="name"/>
+ 		<result property="gender" column="gender"/>
+ 		<result property="icon" column="icon"/>
+ 		<result property="desc" column="desc"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectUserById" resultType="forum.cute.bean.UserBean" resultMap="userRM">
+ 		SELECT * FROM t_user WHERE id = #{id}
+ 	</select>
+ 	
+ 	<select id="selectUserByAccount" resultType="forum.cute.bean.UserBean" resultMap="userRM">
+ 		SELECT * FROM t_user WHERE account = #{account}
+ 	</select>
+ 	
+ 	<select id="selectUserByName" resultType="forum.cute.bean.UserBean" resultMap="userRM">
+ 		SELECT * FROM t_user WHERE name = #{name}
+ 	</select>
+ 	
+ 	<insert id="createUser">
+ 		INSERT INTO t_user (`account` ,`password` ,`name` ,`gender` ,`desc`) 
+ 		 VALUES(#{p_account} , #{p_password} , #{p_name} , #{p_gender} , #{p_desc})
+ 	</insert>
+ 	
+ 	<update id="updateUser" parameterType="forum.cute.bean.UserBean">
+ 		UPDATE  `cute_forum`.`t_user` SET  `password` =  #{password}, `name` =  #{name}, 
+ 		`gender` =  #{gender}, `icon` =  #{icon} , `desc` =  #{desc} 
+ 		 WHERE  `t_user`.`id` = #{id};
+ 	</update>
+ 	
+ 	
+ 	
+ </mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="forum.cute.mapper.ReplyMapper">
+ 	<resultMap id="replyRM" type="forum.cute.bean.ReplyBean">
+ 		<result property="id" column="id"/>
+ 		<result property="topicId" column="topic_id"/>
+ 		<result property="content" column="content"/>
+ 		<result property="author" column="author"/>
+ 		<result property="floor" column="floor"/>
+ 		<result property="replyFloor" column="reply_floor"/>
+ 		<result property="replyUser" column="reply_user"/>
+ 		<result property="replyTime" column="reply_time"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectReplyById" resultType="forum.cute.bean.ReplyBean" resultMap="replyRM">
+ 		SELECT * FROM t_reply WHERE id = #{id}
+ 	</select>
+ 	
+ 	<select id="selectPageReplies" resultType="forum.cute.bean.ReplyBean" resultMap="replyRM">
+ 		SELECT * FROM t_reply WHERE topic_id = #{topicId} ORDER BY floor ASC LIMIT #{ind_from},#{page_size}
+ 	</select>
+ 	
+ 	<select id="queryMaxFloor" resultType="int">
+ 		SELECT count(*) FROM t_reply WHERE topic_id = #{topicId}
+ 	</select>
+ 	
+ 	<insert id="createReply" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO t_reply (`id` ,`topic_id` ,`content` ,`author` ,`floor` ,`reply_floor` ,`reply_user` ,`reply_time`) 
+ 		 VALUES(#{id} , #{topicId} , #{content} , #{author} , #{floor} , #{replyFloor} , #{replyUser} , #{replyTime})
+ 	</insert>
+ 	
+ 	<delete id="deleteReplyInTopic">
+ 		DELETE FROM `cute_forum`.`t_reply` WHERE `t_reply`.`topic_id` = #{topicId}
+ 	</delete>
+ 	
+ 	
+ </mapper>

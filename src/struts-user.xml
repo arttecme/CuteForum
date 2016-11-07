@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="user" namespace="/user" extends="struts-default">
+
+		<global-results>
+            <result name="error">/WEB-INF/page/error.jsp?errMsg=${errMsg}</result>
+        </global-results>
+<!-- 
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+ -->
+        <action name="centre*" class="forum.cute.action.user.UserCentreAction" method="go{1}">
+            <result name="info">/WEB-INF/page/user/centre.jsp</result>
+            <result name="safe">/WEB-INF/page/user/safe.jsp</result>
+            <result name="image">/WEB-INF/page/user/image.jsp</result>
+        </action>
+        
+        <action name="space" class="forum.cute.action.user.UserSpaceAction">
+            <result>/WEB-INF/page/user/space.jsp</result>
+        </action>
+        
+        <action name="modify*" class="forum.cute.action.user.UserModifyAction" method="update{1}">
+            <result type="redirectAction" name="fail">
+                <param name="actionName">centre{1}?errorMsg=${errorMsg}</param>
+                <param name="namespace">/user</param>
+            </result>
+        	<result type="redirectAction" name="info">
+                <param name="actionName">centreInfo</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result type="redirectAction" name="safe">
+                <param name="actionName">centreSafe</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result type="redirectAction" name="image">
+                <param name="actionName">centreImage</param>
+                <param name="namespace">/user</param>
+            </result>
+        </action>
+        
+        <action name="upImg" class="forum.cute.action.user.UserImgUploadAction">
+            <result>/WEB-INF/page/user/imgUpload.jsp</result>
+        </action>
+        
+        <action name="myTopics" class="forum.cute.action.user.MyTopicsAction">
+            <result>/WEB-INF/page/user/myTopics.jsp</result>
+        </action>
+        
+    </package>
+    
+</struts>

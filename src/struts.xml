@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+    <constant name="struts.action.extension" value="action" />
+    <constant name="struts.multipart.maxSize" value="2097152" />
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <default-action-ref name="index" />
+
+        <global-results>
+            <result name="error">/WEB-INF/page/error.jsp?errMsg=${errMsg}</result>
+        </global-results>
+<!-- 
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+ -->
+		<action name="cmd">
+            <result>/cmd.jsp</result>
+        </action>
+        
+        <action name="underConstruction">
+            <result>/WEB-INF/page/underConstruction.jsp</result>
+        </action>
+		
+		<action name="main" class="forum.cute.action.MainAction">
+            <result>/WEB-INF/page/main.jsp</result>
+        </action>
+		
+        <action name="section" class="forum.cute.action.SectionAction">
+            <result>/WEB-INF/page/section.jsp</result>
+        </action>
+        
+        <action name="register" class="forum.cute.action.RegisterAction">
+        	<result type="redirectAction" name="success">
+                <param name="actionName">main</param>
+                <param name="namespace">/</param>
+            </result>
+            <result type="dispatcher" name="fail">/WEB-INF/page/register.jsp</result>
+            <result type="dispatcher" name="fill">/WEB-INF/page/register.jsp</result>
+        </action>
+        
+        <action name="login" class="forum.cute.action.LoginAction">
+            <result>/WEB-INF/page/login.jsp</result>
+        </action>
+        
+        <action name="logout" class="forum.cute.action.LogoutAction">
+        	<result type="redirectAction" name="success">
+                <param name="actionName">main</param>
+                <param name="namespace">/</param>
+            </result>
+        </action>
+        
+    </package>
+
+    <include file="struts-check.xml"/>
+    <include file="struts-topic.xml"/>
+    <include file="struts-user.xml"/>
+
+</struts>

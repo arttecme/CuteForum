@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="forum.cute.mapper.TopicMapper">
+ 	<resultMap id="topicRM" type="forum.cute.bean.TopicBean">
+ 		<result property="id" column="id"/>
+ 		<result property="section" column="section"/>
+ 		<result property="title" column="title"/>
+ 		<result property="content" column="content"/>
+ 		<result property="author" column="author"/>
+ 		<result property="pubTime" column="pub_time"/>
+ 		<result property="modTime" column="mod_time"/>
+ 		<result property="recommend" column="recommend"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectTopicById" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT * FROM t_topic WHERE id = #{id}
+ 	</select>
+ 	
+ 	<select id="selectRecommendTopics" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT * FROM t_topic WHERE section = #{section} ORDER BY pub_time DESC LIMIT 0, 8
+ 	</select>
+ 	
+ 	<select id="selectPageTopics" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT id,title,author,pub_time,mod_time FROM t_topic WHERE section = #{section} LIMIT #{ind_from},#{page_size}
+ 	</select>
+ 	
+ 	<select id="selectMyPageTopics" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT id,title,author,pub_time,mod_time FROM t_topic WHERE author = #{author} LIMIT #{ind_from},#{page_size}
+ 	</select>
+ 	
+ 	<select id="queryTopicsNum" resultType="int">
+ 		SELECT count(*) FROM t_topic WHERE section = #{section}
+ 	</select>
+ 	
+ 	<select id="queryMyTopicsNum" resultType="int">
+ 		SELECT count(*) FROM t_topic WHERE author = #{author}
+ 	</select>
+ 	
+ 	<insert id="createTopic" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO t_topic (`title` ,`section` ,`content` ,`author` ,`pub_time` , `mod_time`, `recommend`) 
+ 		 VALUES(#{title} , #{section} , #{content} , #{author} , #{pubTime} , #{modTime} , #{recommend})
+ 	</insert>
+ 	
+ 	<update id="updateTopic" parameterType="forum.cute.bean.TopicBean">
+ 		UPDATE  `cute_forum`.`t_topic` SET  `title` =  #{title}, `section` =  #{section}, 
+ 		`content` =  #{content}, `mod_time` =  #{modTime}  
+ 		 WHERE  `t_topic`.`id` = #{id};
+ 	</update>
+ 	
+ 	<delete id="deleteTopic">
+ 		DELETE FROM `cute_forum`.`t_topic` WHERE `t_topic`.`id` = #{id}
+ 	</delete>
+ 	
+ 	<select id="searchTopics" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT id,title,author,pub_time,mod_time FROM t_topic 
+ 		 WHERE `title` like #{keywords} OR `content` like #{keywords} 
+ 		 LIMIT #{ind_from},#{page_size};
+ 	</select>
+ 	
+ 	<select id="searchTopicsInSection" resultType="forum.cute.bean.TopicBean" resultMap="topicRM">
+ 		SELECT id,title,author,pub_time,mod_time FROM t_topic 
+ 		 WHERE `section` = #{section} AND (`title` like #{keywords} OR `content` like #{keywords}) 
+ 		 LIMIT #{ind_from},#{page_size};
+ 	</select>
+ 	
+ 	<select id="searchTopicsNum" resultType="int">
+ 		SELECT count(*) FROM t_topic 
+		 WHERE `title` like #{keywords} OR `content` like #{keywords};
+ 	</select>
+ 	
+ 	<select id="searchTopicsInSectionNum" resultType="int">
+ 		SELECT count(*) FROM t_topic 
+		 WHERE `section` = #{section} AND (`title` like #{keywords} OR `content` like #{keywords});
+ 	</select>
+ 	
+ </mapper>
