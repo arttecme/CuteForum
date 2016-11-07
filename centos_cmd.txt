@@ -1,0 +1,49 @@
+yum list java*
+yum install java-1.7.0_XXXXX -y
+cd /usr/share/tomcat/bin
+添加 catalina.sh setclasspath.sh shutdown.sh startup.sh 为他们赋予可执行权限
+chmod +x /etc/profile.d/tomcat.sh
+sh startup.sh
+sh shutdown.sh
+
+whereis mysql
+
+安装Apache 
+yum install httpd httpd-devel
+httpd -k start
+httpd -k stop
+
+安装mysql 
+yum remove mysql
+yum install mysql mysql-server mysql-devel //老的 在centos7下不能使用
+yum install mariadb-server
+service mariadb start
+设置mysql密码 
+mysql>; USE mysql; 
+mysql>; UPDATE user SET Password=PASSWORD('123456') WHERE user='root'; 
+mysql>; FLUSH PRIVILEGES;
+
+安装php 
+yum install php php-mysql php-common php-gd php-mbstring php-mcrypt php-devel php-xml
+
+安装phpMyAdmin
+yum install phpmyadmin
+修改etc/httpd/conf.d/phpMyAdmin.conf
+将其中这部分的内容改为如下
+<Directory /usr/share/phpMyAdmin/>
+   AddDefaultCharset UTF-8
+
+   <IfModule mod_authz_core.c>
+     # Apache 2.4
+     <RequireAny>
+	   Require all granted
+     </RequireAny>
+   </IfModule>
+   <IfModule !mod_authz_core.c>
+     # Apache 2.2
+     Order Deny,Allow
+     Allow from All
+     Allow from 127.0.0.1
+     Allow from ::1
+   </IfModule>
+</Directory>
